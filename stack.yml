@@ -47,8 +47,8 @@ services:
       - .env.db.config
       - .env.rabbit.config
     env:
-      RABBIT_REPLIES: TODO
-      RABBIT_HOTEL: TODO
+      RABBIT_REPLIES: saga-replies-queue
+      RABBIT_HOTEL: saga-hotel-queue
       DB_NAME_HOTEL: hotels
     depends_on:
       - vgt-broker
@@ -66,8 +66,8 @@ services:
       - .env.db.config
       - .env.rabbit.config
     env:
-      RABBIT_REPLIES: TODO
-      RABBIT_HOTEL: TODO
+      RABBIT_REPLIES: saga-replies-queue
+      RABBIT_FLIGHT: saga-flight-queue
       DB_NAME_FLIGHT: flights
     depends_on:
       - vgt-broker
@@ -85,13 +85,13 @@ services:
       - .env.db.config
       - .env.rabbit.config
     env:
-      BACKEND_REQUESTS: TODO
+      BACKEND_REQUESTS: backend-to-saga-queue
       BACKEND_REPLIES: saga-to-backends
-      RABBIT_REPLIES: TODO
-      RABBIT_ORDER: TODO
-      RABBIT_PAYMENT: TODO
-      RABBIT_HOTEL: TODO
-      RABBIT_FLIGHT: TODO
+      RABBIT_REPLIES: saga-replies-queue
+      RABBIT_ORDER: saga-order-queue
+      RABBIT_PAYMENT: saga-payment-queue
+      RABBIT_HOTEL: saga-hotel-queue
+      RABBIT_FLIGHT: saga-flight-queue
       DB_NAME_SAGA: saga
     depends_on:
       - vgt-broker
@@ -111,8 +111,8 @@ services:
       - .env.db.config
       - .env.rabbit.config
     env:
-      RABBIT_REPLIES: TODO
-      RABBIT_PAYMENT: TODO
+      RABBIT_REPLIES: saga-replies-queue
+      RABBIT_PAYMENT: saga-payment-queue
       PAYMENT_MIN_DELAY: 0
       PAYMENT_MAX_DELAY: 100
     depends_on:

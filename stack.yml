@@ -49,7 +49,7 @@ services:
     env:
       RABBIT_REPLIES: saga-replies-queue
       RABBIT_HOTEL: saga-hotel-queue
-      DB_NAME_HOTEL: hotels
+      DB_NAME_HOTEL: vgt_hotels
     depends_on:
       - vgt-broker
 
@@ -68,7 +68,7 @@ services:
     env:
       RABBIT_REPLIES: saga-replies-queue
       RABBIT_FLIGHT: saga-flight-queue
-      DB_NAME_FLIGHT: flights
+      DB_NAME_FLIGHT: vgt_flights
     depends_on:
       - vgt-broker
 
@@ -92,7 +92,7 @@ services:
       RABBIT_PAYMENT: saga-payment-queue
       RABBIT_HOTEL: saga-hotel-queue
       RABBIT_FLIGHT: saga-flight-queue
-      DB_NAME_SAGA: saga
+      DB_NAME_SAGA: vgt_saga
     depends_on:
       - vgt-broker
       - vgt-saga-hotel

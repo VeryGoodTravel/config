@@ -1,0 +1,82 @@
+version: '3.7'
+
+services:
+  vgt-web-app:
+    image: qaziok/vgt-web-app:latest
+    ports:
+      - "18434:80"
+    env:
+      VUE_APP_API_URL=/api
+      VUE_APP_API_TIMEOUT=10000
+      VUE_APP_API_PURCHASE_TIMEOUT=60000
+    depends_on:
+      - vgt-api
+
+  vgt-api:
+    image: qaziok/vgt-api:latest
+  depends_on:
+    - vgt-saga-hotel
+    - vgt-saga-flight
+    - vgt-saga-orders
+    - vgt-saga-payment
+
+  vgt-saga-hotel:
+    image: qaziok/vgt-saga-hotel:latest
+    env-file:
+      - .env.db.config
+      - .env.rabbit.config
+    env:
+      RABBIT_REPLIES: TODO
+      RABBIT_HOTEL: TODO
+      DB_NAME_HOTEL: hotels
+    depends_on:
+      - vgt-broker
+
+  vgt-saga-flight:
+    image: qaziok/vgt-saga-flight:latest
+    env-file:
+      - .env.db.config
+      - .env.rabbit.config
+    env:
+      RABBIT_REPLIES: TODO
+      RABBIT_HOTEL: TODO
+      DB_NAME_FLIGHT: flights
+    depends_on:
+      - vgt-broker
+
+  vgt-saga-orders:
+    image: qaziok/vgt-saga-orders:latest
+    env-file:
+      - .env.db.config
+      - .env.rabbit.config
+    env:
+      BACKEND_REQUESTS: TODO
+      BACKEND_REPLIES: saga-to-backends
+      RABBIT_REPLIES: TODO
+      RABBIT_ORDER: TODO
+      RABBIT_PAYMENT: TODO
+      RABBIT_HOTEL: TODO
+      RABBIT_FLIGHT: TODO
+      DB_NAME_SAGA: saga
+    depends_on:
+      - vgt-broker
+      - vgt-saga-hotel
+      - vgt-saga-flight
+
+  vgt-saga-payment:
+    image: qaziok/vgt-saga-payment:latest
+    env-file:
+      - .env.db.config
+      - .env.rabbit.config
+    env:
+      RABBIT_REPLIES: TODO
+      RABBIT_PAYMENT: TODO
+      PAYMENT_MIN_DELAY: 0
+      PAYMENT_MAX_DELAY: 100
+    depends_on:
+      - vgt-broker
+
+  vgt-broker:
+    image: qaziok/vgt-broker:latest
+
+

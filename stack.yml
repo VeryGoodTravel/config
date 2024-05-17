@@ -2,6 +2,13 @@ version: '3.7'
 
 services:
   vgt-web-app:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
     image: qaziok/vgt-web-app:latest
     ports:
       - "18434:80"
@@ -14,6 +21,13 @@ services:
 
   vgt-api:
     image: qaziok/vgt-api:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 30s
   depends_on:
     - vgt-saga-hotel
     - vgt-saga-flight
@@ -22,6 +36,13 @@ services:
 
   vgt-saga-hotel:
     image: qaziok/vgt-saga-hotel:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 30s
     env-file:
       - .env.db.config
       - .env.rabbit.config
@@ -34,6 +55,13 @@ services:
 
   vgt-saga-flight:
     image: qaziok/vgt-saga-flight:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 30s
     env-file:
       - .env.db.config
       - .env.rabbit.config
@@ -46,6 +74,13 @@ services:
 
   vgt-saga-orders:
     image: qaziok/vgt-saga-orders:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 30s
     env-file:
       - .env.db.config
       - .env.rabbit.config
@@ -65,6 +100,13 @@ services:
 
   vgt-saga-payment:
     image: qaziok/vgt-saga-payment:latest
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 30s
     env-file:
       - .env.db.config
       - .env.rabbit.config
@@ -77,6 +119,13 @@ services:
       - vgt-broker
 
   vgt-broker:
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 30s
     image: qaziok/vgt-broker:latest
 
 

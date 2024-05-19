@@ -10,8 +10,6 @@ services:
         max_attempts: 3
         window: 120s
     image: qaziok/vgt-web-app:main
-    ports:
-      - "18434:80"
     environment:
       - VUE_APP_API_URL=/api
       - VUE_APP_API_TIMEOUT=10000
@@ -29,7 +27,7 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
-        window: 30s
+        window: 120s
     depends_on:
       - vgt-saga-hotel
       - vgt-saga-flight
@@ -46,7 +44,7 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
-        window: 30s
+        window: 120s
     env_file:
       - .env.db.config
       - .env.rabbit.config
@@ -65,7 +63,7 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
-        window: 30s
+        window: 120s
     env_file:
       - .env.db.config
       - .env.rabbit.config
@@ -84,7 +82,7 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
-        window: 30s
+        window: 120s
     env_file:
       - .env.db.config
       - .env.rabbit.config
@@ -105,7 +103,7 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
-        window: 30s
+        window: 120s
     env_file:
       - .env.rabbit.config
       - .env.config
@@ -121,7 +119,9 @@ services:
         condition: on-failure
         delay: 5s
         max_attempts: 3
-        window: 30s
+        window: 120s
+    ports:
+      - "18434:15672"
     image: qaziok/vgt-broker:main
     networks:
       - backend
@@ -129,7 +129,7 @@ services:
 networks:
   backend:
     driver: overlay
-    name: vgt-network
+    name: RSWW_184347_vgt-network
   database:
     external: true
     name: admin-postgres_default

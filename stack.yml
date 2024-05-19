@@ -12,10 +12,10 @@ services:
     image: qaziok/vgt-web-app:main
     ports:
       - "18434:80"
-    env:
-      VUE_APP_API_URL=/api
-      VUE_APP_API_TIMEOUT=10000
-      VUE_APP_API_PURCHASE_TIMEOUT=60000
+    environment:
+      - VUE_APP_API_URL=/api
+      - VUE_APP_API_TIMEOUT=10000
+      - VUE_APP_API_PURCHASE_TIMEOUT=60000
     depends_on:
       - vgt-api
     networks:
@@ -47,13 +47,10 @@ services:
         delay: 5s
         max_attempts: 3
         window: 30s
-    env-file:
+    env_file:
       - .env.db.config
       - .env.rabbit.config
-    env:
-      RABBIT_REPLIES: saga-replies-queue
-      RABBIT_HOTEL: saga-hotel-queue
-      DB_NAME_HOTEL: vgt_hotels
+      - .env.config
     depends_on:
       - vgt-broker
     networks:
@@ -69,13 +66,10 @@ services:
         delay: 5s
         max_attempts: 3
         window: 30s
-    env-file:
+    env_file:
       - .env.db.config
       - .env.rabbit.config
-    env:
-      RABBIT_REPLIES: saga-replies-queue
-      RABBIT_FLIGHT: saga-flight-queue
-      DB_NAME_FLIGHT: vgt_flights
+      - .env.config
     depends_on:
       - vgt-broker
     networks:
@@ -91,18 +85,10 @@ services:
         delay: 5s
         max_attempts: 3
         window: 30s
-    env-file:
+    env_file:
       - .env.db.config
       - .env.rabbit.config
-    env:
-      BACKEND_REQUESTS: backend-to-saga-queue
-      BACKEND_REPLIES: saga-to-backends
-      RABBIT_REPLIES: saga-replies-queue
-      RABBIT_ORDER: saga-order-queue
-      RABBIT_PAYMENT: saga-payment-queue
-      RABBIT_HOTEL: saga-hotel-queue
-      RABBIT_FLIGHT: saga-flight-queue
-      DB_NAME_SAGA: vgt_saga
+      - .env.config
     depends_on:
       - vgt-broker
       - vgt-saga-hotel
@@ -120,13 +106,9 @@ services:
         delay: 5s
         max_attempts: 3
         window: 30s
-    env-file:
+    env_file:
       - .env.rabbit.config
-    env:
-      RABBIT_REPLIES: saga-replies-queue
-      RABBIT_PAYMENT: saga-payment-queue
-      PAYMENT_MIN_DELAY: 0
-      PAYMENT_MAX_DELAY: 100
+      - .env.config
     depends_on:
       - vgt-broker
     networks:

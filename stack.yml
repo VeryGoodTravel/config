@@ -9,7 +9,7 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    image: qaziok/vgt-web-app:latest
+    image: qaziok/vgt-web-app:main
     ports:
       - "18434:80"
     env:
@@ -18,9 +18,11 @@ services:
       VUE_APP_API_PURCHASE_TIMEOUT=60000
     depends_on:
       - vgt-api
+    networks:
+      - backend
 
   vgt-api:
-    image: qaziok/vgt-api:latest
+    image: qaziok/vgt-api:main
     deploy:
       replicas: 1
       restart_policy:
@@ -33,9 +35,11 @@ services:
     - vgt-saga-flight
     - vgt-saga-orders
     - vgt-saga-payment
+  networks:
+    - backend
 
   vgt-saga-hotel:
-    image: qaziok/vgt-saga-hotel:latest
+    image: qaziok/vgt-saga-hotel:main
     deploy:
       replicas: 1
       restart_policy:
@@ -52,9 +56,12 @@ services:
       DB_NAME_HOTEL: vgt_hotels
     depends_on:
       - vgt-broker
+    networks:
+      - backend
+      - database
 
   vgt-saga-flight:
-    image: qaziok/vgt-saga-flight:latest
+    image: qaziok/vgt-saga-flight:main
     deploy:
       replicas: 1
       restart_policy:
@@ -71,9 +78,12 @@ services:
       DB_NAME_FLIGHT: vgt_flights
     depends_on:
       - vgt-broker
+    networks:
+      - backend
+      - database
 
   vgt-saga-orders:
-    image: qaziok/vgt-saga-orders:latest
+    image: qaziok/vgt-saga-orders:main
     deploy:
       replicas: 1
       restart_policy:
@@ -97,9 +107,12 @@ services:
       - vgt-broker
       - vgt-saga-hotel
       - vgt-saga-flight
+    networks:
+      - backend
+      - database
 
   vgt-saga-payment:
-    image: qaziok/vgt-saga-payment:latest
+    image: qaziok/vgt-saga-payment:main
     deploy:
       replicas: 1
       restart_policy:
@@ -108,7 +121,6 @@ services:
         max_attempts: 3
         window: 30s
     env-file:
-      - .env.db.config
       - .env.rabbit.config
     env:
       RABBIT_REPLIES: saga-replies-queue
@@ -117,6 +129,8 @@ services:
       PAYMENT_MAX_DELAY: 100
     depends_on:
       - vgt-broker
+    networks:
+      - backend
 
   vgt-broker:
     deploy:
@@ -126,6 +140,14 @@ services:
         delay: 5s
         max_attempts: 3
         window: 30s
-    image: qaziok/vgt-broker:latest
+    image: qaziok/vgt-broker:main
+    networks:
+      - backend
 
-
+networks:
+  backend:
+    driver: overlay
+    name: vgt-network
+  database:
+    external: true
+    name: admin-postgres_default

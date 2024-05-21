@@ -6,7 +6,7 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 60s
         max_attempts: 3
         window: 120s
     image: qaziok/vgt-web-app:main
@@ -25,7 +25,7 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 60s
         max_attempts: 3
         window: 120s
     depends_on:
@@ -42,7 +42,7 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 60s
         max_attempts: 3
         window: 120s
     env_file:
@@ -61,7 +61,7 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 60s
         max_attempts: 3
         window: 120s
     env_file:
@@ -80,7 +80,7 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 60s
         max_attempts: 3
         window: 120s
     env_file:
@@ -101,7 +101,7 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 60s
         max_attempts: 3
         window: 120s
     env_file:
@@ -117,7 +117,7 @@ services:
       replicas: 1
       restart_policy:
         condition: on-failure
-        delay: 5s
+        delay: 60s
         max_attempts: 3
         window: 120s
     ports:

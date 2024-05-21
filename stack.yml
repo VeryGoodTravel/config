@@ -122,6 +122,7 @@ services:
         window: 120s
     ports:
       - "18434:15672"
+      - "18435:5672"
     image: qaziok/vgt-broker:main
     networks:
       - backend

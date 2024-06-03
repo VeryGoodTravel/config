@@ -10,6 +10,8 @@ services:
         max_attempts: 3
         window: 30s
     image: qaziok/vgt-web-app:main
+    ports:
+      - "18434:80"
     environment:
       - VUE_APP_API_URL=/api
       - VUE_APP_API_TIMEOUT=10000
@@ -28,6 +30,9 @@ services:
         delay: 60s
         max_attempts: 3
         window: 30s
+    env_file:
+      - .env.rabbit.config
+      - .env.config
     depends_on:
       - vgt-saga-hotel
       - vgt-saga-flight
@@ -120,9 +125,9 @@ services:
         delay: 60s
         max_attempts: 3
         window: 30s
-    ports:
-      - "18434:15672"
-      - "18435:5672"
+    # ports:
+    #   - "18434:15672"
+    #   - "18435:5672"
     image: qaziok/vgt-broker:main
     networks:
       - backend

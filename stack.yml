@@ -22,7 +22,7 @@ services:
       - backend
 
   vgt-api:
-    image: qaziok/vgt-api:main
+    image: qaziok/vgt-api-v2:main
     deploy:
       replicas: 1
       restart_policy:

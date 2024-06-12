@@ -40,6 +40,25 @@ services:
       - vgt-saga-payment
     networks:
       - backend
+  
+  vgt-stats:
+    image: qaziok/vgt-stats:main
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: any
+        delay: 60s
+        max_attempts: 3
+        window: 30s
+    env_file:
+      - .env.db.config
+      - .env.rabbit.config
+      - .env.config
+    depends_on:
+      - vgt-broker
+    networks:
+      - backend
+      - database
 
   vgt-saga-hotel:
     image: qaziok/vgt-saga-hotel:main
